@@ -44,3 +44,9 @@ export async function createProductReview(productId, review) {
     })
     .then((data) => data);
 }
+
+export async function deleteProduct(id) {
+  return await axios
+    .delete(apiUrl + "product/" + id, { headers })
+    .then((data) => data);
+}

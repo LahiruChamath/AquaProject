@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { CheckIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { CheckIcon, XMarkIcon, TrashIcon } from "@heroicons/react/24/solid";
 import {
   Avatar,
   Button,
@@ -23,6 +23,7 @@ import {
   getSearchedProducts,
   updateProductStatus,
 } from "../../../services/admin_service";
+import { deleteProduct } from "../../../services/product_service";
 import ProductApproveModal from "./ProductApproveModal";
 import ProductDeclineModal from "./ProductDeclineModal";
 
@@ -58,7 +59,7 @@ const AdminProductsTable = () => {
     },
   ];
 
-  const TABLE_HEAD = ["Products", "Rating", "Quantity", "Status", "Created date", ""];
+  const TABLE_HEAD = ["Products", "Rating", "Quantity", "Status", "Created date", "Actions"];
 
   const TABLE_ROWS = [
     {
@@ -152,6 +153,21 @@ const AdminProductsTable = () => {
     });
   };
 
+  const handleDelete = async (id, name) => {
+    if (window.confirm(`Are you sure you want to delete product "${name}"?`)) {
+      try {
+        const res = await deleteProduct(id);
+        if (res.data.result) {
+          fetchProducts();
+        } else {
+          alert(res.data.message || "Failed to delete product");
+        }
+      } catch (err) {
+        alert("Something went wrong while deleting product");
+      }
+    }
+  };
+
   return (
     <div className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -243,7 +259,7 @@ const AdminProductsTable = () => {
                         : "p-4 border-b border-blue-gray-50";
 
                       return (
-                        <tr key={name}>
+                        <tr key={_id}>
                           <td className={classes}>
                             <div className="flex items-center gap-3">
                               <Avatar src={imgURL} alt={name} size="sm" />
@@ -320,6 +336,7 @@ const AdminProductsTable = () => {
                               <Tooltip content="Approve Product">
                                 <IconButton
                                   variant="text"
+                                  color="green"
                                   onClick={() => {
                                     setSelectedId(_id);
                                     setSelectedStatus(4);
@@ -334,6 +351,7 @@ const AdminProductsTable = () => {
                               <Tooltip content="Decline Product">
                                 <IconButton
                                   variant="text"
+                                  color="red"
                                   onClick={() => {
                                     setSelectedId(_id);
                                     setSelectedStatus(404);
@@ -344,6 +362,15 @@ const AdminProductsTable = () => {
                                 </IconButton>
                               </Tooltip>
                             )}
+                            <Tooltip content="Delete Product">
+                              <IconButton
+                                variant="text"
+                                color="red"
+                                onClick={() => handleDelete(_id, name)}
+                              >
+                                <TrashIcon className="h-4 w-4" />
+                              </IconButton>
+                            </Tooltip>
                           </td>
                         </tr>
                       );
