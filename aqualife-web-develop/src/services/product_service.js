@@ -2,37 +2,37 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3500/";
 
-const headers = {
+const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem("token")}`,
-};
+});
 
 export async function getAllProducts() {
   return await axios
-    .get(apiUrl + "product", { headers })
+    .get(apiUrl + "product", { headers: getHeaders() })
     .then((data) => data);
 }
 
 export async function addProduct(obj) {
   return await axios
-    .post(apiUrl + "product/", obj, { headers })
+    .post(apiUrl + "product/", obj, { headers: getHeaders() })
     .then((data) => data);
 }
 
 export async function searchProducts(productName) {
   return await axios
-    .post(apiUrl + "product/search-product", { productName }, { headers })
+    .post(apiUrl + "product/search-product", { productName }, { headers: getHeaders() })
     .then((data) => data);
 }
 
 export async function getProduct(id) {
   return await axios
-    .get(apiUrl + "product/" + id, { headers })
+    .get(apiUrl + "product/" + id, { headers: getHeaders() })
     .then((data) => data);
 }
 
 export async function editProduct(obj) {
   return await axios
-    .patch(apiUrl + "product/", obj, { headers })
+    .patch(apiUrl + "product/", obj, { headers: getHeaders() })
     .then((data) => data);
 }
 
@@ -47,6 +47,6 @@ export async function createProductReview(productId, review) {
 
 export async function deleteProduct(id) {
   return await axios
-    .delete(apiUrl + "product/" + id, { headers })
+    .delete(apiUrl + "product/" + id, { headers: getHeaders() })
     .then((data) => data);
 }
