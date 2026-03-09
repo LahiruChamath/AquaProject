@@ -54,7 +54,7 @@ function App() {
               element={<AdminSellersTable />}
             />
             <Route
-              path={ADMIN_SELLERS_REVIEWS_PATH}
+              path={`${ADMIN_SELLERS_REVIEWS_PATH}:id`}
               element={<AdminSellerReviews />}
             />
             <Route

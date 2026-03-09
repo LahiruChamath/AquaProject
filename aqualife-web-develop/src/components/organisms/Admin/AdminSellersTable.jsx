@@ -96,7 +96,7 @@ const AdminSellersTable = () => {
   }, []);
 
   const searchSeller = (value) => {
-    if (value != "") {
+    if (value !== "") {
       const obj = {
         userName: value,
       };
@@ -180,7 +180,7 @@ const AdminSellersTable = () => {
               <tbody>
                 {sellers.map(
                   (
-                    { _id, firstName, lastName, email, status, createdAt },
+                    { _id, firstName, lastName, email, status, createdAt, sellerRating, numProductReviews },
                     index
                   ) => {
                     const isLast = index === TABLE_ROWS.length - 1;
@@ -211,8 +211,15 @@ const AdminSellersTable = () => {
                           </div>
                         </td>
                         <td className={classes}>
-                          <div className="flex flex-col">
-                            <Rating value={4} readonly />
+                          <div className="flex flex-col gap-1 w-max">
+                            <Rating value={Math.round(sellerRating || 0)} readonly size="sm" />
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="text-xs font-normal opacity-70"
+                            >
+                              {numProductReviews || 0} product reviews
+                            </Typography>
                           </div>
                         </td>
                         <td className={classes}>
@@ -248,7 +255,7 @@ const AdminSellersTable = () => {
                         </td>
                         <td className={`${classes} flex space-x-5`}>
                           <Tooltip content="View Reviews">
-                            <Link to={ADMIN_SELLERS_REVIEWS_PATH}>
+                            <Link to={`${ADMIN_SELLERS_REVIEWS_PATH}${_id}`}>
                               <IconButton variant="text">
                                 <EyeIcon className="h-4 w-4" />
                               </IconButton>

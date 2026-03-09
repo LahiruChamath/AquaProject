@@ -41,3 +41,9 @@ export async function updateProductStatus(obj) {
     .post(apiUrl + "admin/update-product-status", obj, { headers })
     .then((data) => data);
 }
+
+export async function getSellerReviews(sellerId) {
+  return await axios
+    .get(apiUrl + `admin/seller-reviews/${sellerId}`, { headers })
+    .then((data) => data);
+}

@@ -31,4 +31,8 @@ router
   .route("/get-product/:id")
   .get(verifyJWT, adminController.getProductDetails);
 
+router
+  .route("/seller-reviews/:id")
+  .get(verifyJWT, adminController.getSellerReviews);
+
 module.exports = router;

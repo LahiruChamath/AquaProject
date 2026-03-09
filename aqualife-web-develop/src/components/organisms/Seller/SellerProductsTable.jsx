@@ -9,6 +9,7 @@ import {
   Chip,
   IconButton,
   Input,
+  Rating,
   Spinner,
   Tab,
   Tabs,
@@ -56,7 +57,7 @@ const SellerProductsTable = () => {
     },
   ];
 
-  const TABLE_HEAD = ["Products", "Quantity", "Status", "Created date", ""];
+  const TABLE_HEAD = ["Products", "Rating", "Quantity", "Status", "Created date", ""];
 
   const TABLE_ROWS = [
     {
@@ -114,7 +115,7 @@ const SellerProductsTable = () => {
   }, []);
 
   const searchProduct = (value) => {
-    if (value != "") {
+    if (value !== "") {
       const obj = {
         productName: value,
       };
@@ -228,6 +229,8 @@ const SellerProductsTable = () => {
                         currency,
                         price,
                         quantity,
+                        rating = 0,
+                        numReviews = 0,
                         createdAt,
                         _id,
                       },
@@ -262,6 +265,14 @@ const SellerProductsTable = () => {
                             </div>
                           </td>
                           <td className={classes}>
+                            <div className="flex flex-col gap-1 w-max">
+                              <Rating value={Math.round(rating || 0)} readonly size="sm" />
+                              <Typography variant="small" color="blue-gray" className="text-xs font-normal opacity-70">
+                                {numReviews || 0} {numReviews === 1 ? 'review' : 'reviews'}
+                              </Typography>
+                            </div>
+                          </td>
+                          <td className={classes}>
                             <div className="flex flex-col">
                               <Typography
                                 variant="small"
@@ -278,16 +289,16 @@ const SellerProductsTable = () => {
                                 variant="ghost"
                                 size="sm"
                                 value={
-                                  status == 4
+                                  status === 4
                                     ? "Accepted"
-                                    : status == 0
+                                    : status === 0
                                     ? "Pending"
                                     : "Rejected"
                                 }
                                 color={
-                                  status == 4
+                                  status === 4
                                     ? "green"
-                                    : status == 0
+                                    : status === 0
                                     ? "blue-gray"
                                     : "red"
                                 }

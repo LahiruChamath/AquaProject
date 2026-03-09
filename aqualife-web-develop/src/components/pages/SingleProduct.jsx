@@ -1,7 +1,6 @@
-import { ArrowSmallLeftIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/solid";
-import { StarIcon as StarOutlineIcon } from "@heroicons/react/24/outline";
+import { ArrowSmallLeftIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
 import { Button, Chip, Rating, Spinner, Textarea } from "@material-tailwind/react";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getProduct, createProductReview } from "../../services/product_service";
 import { PRODUCTS_PATH, LOGIN_PATH } from "../constants";
@@ -21,7 +20,7 @@ const SingleProduct = () => {
   const { addToCart } = useContext(CartContext);
   const token = localStorage.getItem("token");
   
-  const fetchProductData = () => {
+  const fetchProductData = useCallback(() => {
     if (!id) return;
     getProduct(id)
       .then((res) => {
@@ -33,11 +32,11 @@ const SingleProduct = () => {
       })
       .catch(() => setError("Network error. Could not load product."))
       .finally(() => setLoading(false));
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchProductData();
-  }, [id]);
+  }, [fetchProductData]);
 
   const submitReviewHandler = (e) => {
     e.preventDefault();

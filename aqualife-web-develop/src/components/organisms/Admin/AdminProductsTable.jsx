@@ -9,6 +9,7 @@ import {
   Chip,
   IconButton,
   Input,
+  Rating,
   Spinner,
   Tab,
   Tabs,
@@ -56,7 +57,7 @@ const AdminProductsTable = () => {
     },
   ];
 
-  const TABLE_HEAD = ["Products", "Quantity", "Status", "Created date", ""];
+  const TABLE_HEAD = ["Products", "Rating", "Quantity", "Status", "Created date", ""];
 
   const TABLE_ROWS = [
     {
@@ -118,7 +119,7 @@ const AdminProductsTable = () => {
   }, []);
 
   const searchProduct = (value) => {
-    if (value != "") {
+    if (value !== "") {
       const obj = {
         productName: value,
       };
@@ -220,6 +221,8 @@ const AdminProductsTable = () => {
                         currency,
                         price,
                         quantity,
+                        rating = 0,
+                        numReviews = 0,
                         createdAt,
                         _id,
                       },
@@ -251,6 +254,14 @@ const AdminProductsTable = () => {
                                   {seller?.email}
                                 </Typography>
                               </div>
+                            </div>
+                          </td>
+                          <td className={classes}>
+                            <div className="flex flex-col gap-1 w-max">
+                              <Rating value={Math.round(rating || 0)} readonly size="sm" />
+                              <Typography variant="small" color="blue-gray" className="text-xs font-normal opacity-70">
+                                {numReviews || 0} {numReviews === 1 ? 'review' : 'reviews'}
+                              </Typography>
                             </div>
                           </td>
                           <td className={classes}>

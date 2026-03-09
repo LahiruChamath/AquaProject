@@ -2,6 +2,7 @@ import {
   PowerIcon,
   ShoppingBagIcon,
   UserGroupIcon,
+  ClipboardDocumentListIcon,
 } from "@heroicons/react/24/solid";
 import { Card, List, Typography } from "@material-tailwind/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -61,6 +62,18 @@ const SellerSideBar = () => {
           />
           Products
         </Link>
+        <div
+          className={`cursor-pointer flex items-center group rounded-lg hover:bg-white text-blue-500 hover:text-blue-500 focus:text-blue-500 text-white p-3 transition ease-in-out delay-75 duration-100 ${
+             location.pathname === "/admin/orders" ? "bg-white text-blue-500" : ""
+          }`}
+        >
+          <ClipboardDocumentListIcon
+            className={`h-5 w-5 group-hover:text-blue-500 ${
+               location.pathname === "/admin/orders" ? "text-blue-500" : "text-white"
+            } mr-4`}
+          />
+          Orders
+        </div>
         <div
           onClick={logOut}
           className="cursor-pointer flex items-center rounded-lg bg-none hover:bg-white p-3 text-white group hover:text-blue-500 focus:text-blue-500 transition ease-in-out delay-75 duration-100"

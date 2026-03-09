@@ -43,6 +43,34 @@ const updateProductStatus = async (req, res) => {
   res.json({ message: `'${updatedProduct.name}' updated`, result: true });
 };
 
+// Helper function to calculate seller rating
+const addSellerRatingToUsers = async (users) => {
+  return await Promise.all(
+    users.map(async (user) => {
+      // Find all products for this seller
+      const products = await Product.find({ seller: user._id });
+      
+      let totalRating = 0;
+      let totalReviews = 0;
+      
+      products.forEach(product => {
+        // Average the product's overall rating out
+        totalRating += (product.rating || 0);
+        totalReviews += (product.numReviews || 0);
+      });
+
+      const avgRating = products.length > 0 ? totalRating / products.length : 0;
+
+      // Convert mongoose doc to plain object to attach new properties
+      const userObj = user.toObject();
+      userObj.sellerRating = avgRating;
+      userObj.numProductReviews = totalReviews;
+      
+      return userObj;
+    })
+  );
+};
+
 // @desc Retrieve search sellers
 // @route POST /users
 // @access Private
@@ -50,8 +78,9 @@ const getSearchedUsers = async (req, res) => {
   const { userName } = req.body;
 
   const users = await User.find({ $and: [{ firstName: { $regex: userName }, $options: "i" }, { roles: 'seller' }] });
+  const usersWithRatings = await addSellerRatingToUsers(users);
 
-  res.json({ users, result: true });
+  res.json({ users: usersWithRatings, result: true });
 };
 
 // @desc Retrieve sellers
@@ -59,8 +88,9 @@ const getSearchedUsers = async (req, res) => {
 // @access Private
 const getUsers = async (req, res) => {
   const users = await User.find({ roles: 'seller' });
+  const usersWithRatings = await addSellerRatingToUsers(users);
 
-  res.json({ users, result: true });
+  res.json({ users: usersWithRatings, result: true });
 };
 
 // @desc Retrieve search products
@@ -132,6 +162,39 @@ const getProductDetails = async (req, res) => {
 
 
 
+// @desc Get seller reviews
+// @route GET /seller-reviews/:id
+// @access Private
+const getSellerReviews = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.json({ message: "Seller Id is required", result: false });
+  }
+
+  // Find all products by this seller
+  const products = await Product.find({ seller: id }).exec();
+
+  // Extract and flatten all reviews from these products
+  let allReviews = [];
+  products.forEach(product => {
+    if (product.reviews && product.reviews.length > 0) {
+      // Opt: attach product name so admin knows what product was reviewed
+      const reviewsWithProductName = product.reviews.map(r => {
+        const reviewObj = typeof r.toObject === 'function' ? r.toObject() : r;
+        return { ...reviewObj, productName: product.name };
+      });
+      allReviews.push(...reviewsWithProductName);
+    }
+  });
+
+  // Sort by newest first (assuming timestamps exist on review subdoc, or just use natural order)
+  allReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  res.json({ reviews: allReviews, result: true });
+};
+
+
 module.exports = {
   getProductsWithSellerDetails,
   updateProductStatus,
@@ -139,5 +202,6 @@ module.exports = {
   getUsers,
   getSearchedProduct,
   updateUserStatus,
-  getProductDetails
+  getProductDetails,
+  getSellerReviews
 };
