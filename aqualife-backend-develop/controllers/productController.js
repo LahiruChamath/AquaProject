@@ -173,7 +173,9 @@ const getProductsSellerWise = async (req, res) => {
 const getSearchedProduct = async (req, res) => {
   const { productName } = req.body;
 
-  const products = await Product.find({ name: { $regex: '.*' + productName + '.*' } });
+  // Escape special regex characters in the search term to allow searching symbols safely
+  const safeSearch = productName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const products = await Product.find({ name: { $regex: safeSearch, $options: 'i' } });
 
   res.json({ products, result: true });
 };

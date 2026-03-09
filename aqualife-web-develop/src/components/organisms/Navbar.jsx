@@ -70,7 +70,7 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (searchQuery.trim().length > 1) {
+    if (searchQuery.trim().length > 0) {
       setIsSearching(true);
       setShowDropdown(true);
       
@@ -115,16 +115,31 @@ const Navbar = () => {
           </button>
 
           {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 p-4 px-10 border-2 border-red-500 flex space-x-3 rounded-lg transition ease-in-out delay-75 animation-pulse"
-            >
-              <p className="text-white font-medium">Logout</p>
-            </button>
+            <div className="relative group z-50">
+              <div className="flex items-center gap-3 bg-white bg-opacity-10 py-2 px-4 rounded-xl border border-white border-opacity-20 text-white min-w-max cursor-pointer hover:bg-opacity-20 transition">
+                <UserCircleIcon className="h-10 w-10 text-blue-200" />
+                <div className="flex flex-col">
+                  <span className="text-xs text-blue-100 uppercase tracking-wider font-semibold">Welcome back,</span>
+                  <span className="text-sm font-bold truncate max-w-[150px]">
+                    {userInfo ? `${userInfo.firstName} ${userInfo.lastName}` : "User"}
+                  </span>
+                </div>
+              </div>
+              
+              {/* Dropdown Menu on Hover */}
+              <div className="absolute right-0 top-full mt-2 w-full bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2">
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50 font-medium text-sm transition"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
           ) : (
             <Link
               to={LOGIN_PATH}
-              className="bg-blue-500 p-4 px-16 border-2 border-blue-500 flex space-x-3 rounded-lg transition ease-in-out delay-75 animation-pulse"
+              className="bg-blue-500 p-4 px-16 border-2 border-blue-500 flex space-x-3 rounded-lg transition ease-in-out delay-75 hover:bg-blue-600"
             >
               <p className="text-white font-medium">Login</p>
             </Link>
@@ -133,17 +148,6 @@ const Navbar = () => {
       </div>
       <div className="flex justify-between items-center mt-10 space-x-5">
         
-        {/* Customer Info Section (If logged in as customer) */}
-        {isLoggedIn && role === USER_ROLES.CUSTOMER && userInfo && (
-          <div className="flex items-center gap-3 bg-white bg-opacity-10 py-2 px-4 rounded-xl border border-white border-opacity-20 text-white min-w-max">
-            <UserCircleIcon className="h-10 w-10 text-blue-200" />
-            <div className="flex flex-col">
-              <span className="text-xs text-blue-100 uppercase tracking-wider font-semibold">Welcome back,</span>
-              <span className="text-sm font-bold truncate max-w-[150px]">{userInfo.firstName} {userInfo.lastName}</span>
-            </div>
-          </div>
-        )}
-
         {/* Real-time Search Form */}
         <div className="w-full relative" ref={searchRef}>
           <form onSubmit={handleSearchSubmit} className="flex space-x-5 w-full">
@@ -167,7 +171,7 @@ const Navbar = () => {
           </form>
 
           {/* Search Dropdown Overlay */}
-          {showDropdown && searchQuery.trim().length > 1 && (
+          {showDropdown && searchQuery.trim().length > 0 && (
             <div className="absolute top-16 left-0 w-[calc(100%-180px)] bg-white rounded-xl shadow-2xl p-2 z-50 border border-gray-100 overflow-hidden">
               {isSearching ? (
                 <div className="text-center p-4 text-gray-400 text-sm">Searching...</div>
