@@ -15,7 +15,7 @@ router.route("/:id").delete(verifyJWT, productController.deleteProduct);
 
 router
   .route("/search-product")
-  .post(verifyJWT, productController.getSearchedProduct);
+  .post(productController.getSearchedProduct);
 
 
 module.exports = router;

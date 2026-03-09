@@ -1,15 +1,17 @@
-import { ArrowSmallLeftIcon } from "@heroicons/react/24/solid";
+import { ArrowSmallLeftIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
 import { Button, Chip, Rating, Spinner } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getProduct } from "../../services/product_service";
 import { PRODUCTS_PATH } from "../constants";
+import { CartContext } from "../../context/CartContext";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     if (!id) return;
@@ -106,12 +108,18 @@ const SingleProduct = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="w-full flex justify-end mt-4">
-                    <Chip
-                      color="cyan"
-                      className="h-9 text-lg"
-                      value={`${product.currency || "LKR"} ${Number(product.price).toFixed(2)}`}
-                    />
+                  <div className="w-full flex justify-end mt-6 gap-4 items-center border-t border-gray-200 pt-4 border-opacity-30">
+                    <span className="text-white text-2xl font-bold">
+                      {product.currency || "LKR"} {Number(product.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                    <button
+                      onClick={() => addToCart(product)}
+                      disabled={product.quantity <= 0}
+                      className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg shadow-lg flex items-center gap-2 transition"
+                    >
+                      <ShoppingCartIcon className="h-5 w-5" />
+                      Add to Cart
+                    </button>
                   </div>
                 </div>
               </div>

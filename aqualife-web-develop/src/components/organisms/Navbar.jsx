@@ -6,6 +6,7 @@ import CartDrawer from "./CartDrawer";
 
 const Navbar = () => {
   const [openRight, setOpenRight] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const closeDrawerRight = () => setOpenRight(false);
   const navigate = useNavigate();
 
@@ -16,6 +17,15 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     navigate(LOGIN_PATH);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate("/");
+    }
   };
 
   return (
@@ -48,13 +58,15 @@ const Navbar = () => {
           )}
         </div>
       </div>
-      <form className="mt-10" onSubmit={(e) => e.preventDefault()}>
+      <form className="mt-10" onSubmit={handleSearch}>
         <div className="flex space-x-5">
           <div className="w-full">
             <input
               className="w-full p-3 rounded-lg outline-none"
               placeholder="Search for products..."
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <button

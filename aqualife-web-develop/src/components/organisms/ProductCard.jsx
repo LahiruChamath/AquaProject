@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { CartContext } from "../../context/CartContext";
 
 const ProductCard = ({ product }) => {
   const { _id, name, price, currency, imgURL, seller } = product || {};
 
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault(); // Prevent Link navigation if wrapped
+    addToCart(product);
+  };
+
   return (
-    <div className="rounded-lg pb-4 overflow-hidden border border-gray-200 shadow-lg hover:shadow-blue-300 transition ease-in-out delay-75">
+    <div className="rounded-lg pb-4 overflow-hidden border border-gray-200 shadow-lg hover:shadow-blue-300 transition ease-in-out delay-75 bg-white">
       <div className="w-full">
         <div className="relative h-[200px]">
           <img
@@ -28,11 +37,21 @@ const ProductCard = ({ product }) => {
           <div className="flex justify-end text-base w-full text-blue-500 font-semibold">
             {price ? `${price} ${currency || "Rs"}` : "—"}
           </div>
-          <Link to={`/products/${_id}`}>
-            <button className="w-full rounded-lg bg-blue-500 py-2 text-white mt-5 hover:bg-blue-600 transition">
-              View Product
+          <div className="flex gap-2 mt-5">
+            <Link to={`/products/${_id}`} className="flex-1">
+              <button className="w-full rounded-lg bg-blue-500 py-2 text-white hover:bg-blue-600 transition h-full font-medium">
+                View
+              </button>
+            </Link>
+            <button
+              onClick={handleAddToCart}
+              className="rounded-lg bg-green-500 p-2 px-4 text-white hover:bg-green-600 transition flex items-center justify-center min-w-[3rem]"
+              title="Add to Cart"
+              disabled={product.quantity <= 0}
+            >
+              <ShoppingCartIcon className="h-5 w-5" />
             </button>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

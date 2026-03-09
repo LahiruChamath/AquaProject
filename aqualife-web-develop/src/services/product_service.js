@@ -18,6 +18,12 @@ export async function addProduct(obj) {
     .then((data) => data);
 }
 
+export async function searchProducts(productName) {
+  return await axios
+    .post(apiUrl + "product/search-product", { productName }, { headers })
+    .then((data) => data);
+}
+
 export async function getProduct(id) {
   return await axios
     .get(apiUrl + "product/" + id, { headers })
