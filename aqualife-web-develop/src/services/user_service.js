@@ -9,3 +9,10 @@ export async function registerUser(obj) {
 export async function loginUser(obj) {
   return await axios.post(apiUrl + 'auth', obj).then(data => data);
 }
+
+export async function getspecificUserDetails(id) {
+  const token = localStorage.getItem("token");
+  return await axios
+    .get(apiUrl + "users/" + id, { headers: { Authorization: `Bearer ${token}` } })
+    .then((data) => data);
+}

@@ -6,6 +6,7 @@ export const ADMIN_PRODUCTS_PATH = "/admin/products";
 export const ADMIN_SELLERS_REVIEWS_PATH = "/admin/sellers/reviews/";
 export const LOGIN_PATH = "/login";
 export const REGISTER_PATH = "/register";
+export const CHECKOUT_PATH = "/checkout";
 export const PRODUCTS_PATH = "/";
 export const SPECIFIC_PRODUCTS_PATH = "/products/:id";
 export const USER_ROLES = {

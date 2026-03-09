@@ -94,7 +94,13 @@ const CartDrawer = ({ openRight, closeDrawerRight }) => {
               {cartItems[0]?.currency || "LKR"} {getCartTotal().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
           </div>
-          <button className="w-full transition hover:bg-blue-600 rounded-lg py-3 bg-blue-500 text-white text-base font-medium">
+          <button 
+            onClick={() => {
+              closeDrawerRight();
+              window.location.href = "/checkout"; // Link component or window.location can be used. Using standard navigation via Link component instead.
+            }}
+            className="w-full transition hover:bg-blue-600 rounded-lg py-3 bg-blue-500 text-white text-base font-medium"
+          >
             Checkout
           </button>
         </div>

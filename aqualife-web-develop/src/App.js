@@ -11,6 +11,7 @@ import {
   SELLER_PRODUCTS_EDIT_PATH,
   SELLER_PRODUCTS_PATH,
   SPECIFIC_PRODUCTS_PATH,
+  CHECKOUT_PATH,
 } from "./components/constants";
 import AdminProductsTable from "./components/organisms/Admin/AdminProductsTable";
 import AdminSellerReviews from "./components/organisms/Admin/AdminSellerReviews";
@@ -24,6 +25,7 @@ import Products from "./components/pages/Products";
 import Register from "./components/pages/Register";
 import SellerDashboard from "./components/pages/SellerDashboard";
 import SingleProduct from "./components/pages/SingleProduct";
+import Checkout from "./components/pages/Checkout";
 import "./styles/login.css";
 import "./styles/products.css";
 
@@ -37,6 +39,7 @@ function App() {
           <Route path={REGISTER_PATH} element={<Register />} />
           <Route path={PRODUCTS_PATH} element={<Products />} />
           <Route path={SPECIFIC_PRODUCTS_PATH} element={<SingleProduct />} />
+          <Route path={CHECKOUT_PATH} element={<Checkout />} />
           <Route
             path="/admin"
             element={
