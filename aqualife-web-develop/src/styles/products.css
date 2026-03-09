@@ -1,0 +1,33 @@
+.products {
+  background-image: url("/public/products/homepage-header.jpg");
+}
+
+.single-product {
+  background-image: url("/public/products/product-bg.jpg");
+}
+
+:hover.animation-pulse {
+  /*box-shadow: 0 0 0 20px rgba(229,62,62, 0.5);
+  transform: scale(0.8);*/
+  animation: pulse 2s infinite;
+}
+
+.pointer-events-auto {
+  height: 2000px !important;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 1);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
