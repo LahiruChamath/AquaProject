@@ -35,3 +35,12 @@ export async function editProduct(obj) {
     .patch(apiUrl + "product/", obj, { headers })
     .then((data) => data);
 }
+
+export async function createProductReview(productId, review) {
+  const token = localStorage.getItem("token");
+  return await axios
+    .post(apiUrl + `product/${productId}/reviews`, review, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((data) => data);
+}

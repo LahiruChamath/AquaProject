@@ -1,6 +1,22 @@
 const mongoose = require('mongoose')
 const AutoIncrement = require('mongoose-sequence')(mongoose)
 
+const reviewSchema = mongoose.Schema(
+    {
+        name: { type: String, required: true },
+        rating: { type: Number, required: true },
+        comment: { type: String, required: true },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User',
+        },
+    },
+    {
+        timestamps: true,
+    }
+)
+
 const productSchema = new mongoose.Schema(
     {
         seller: {
@@ -35,7 +51,18 @@ const productSchema = new mongoose.Schema(
         status: {
             type: Number,
             default: 0
-        }
+        },
+        reviews: [reviewSchema],
+        rating: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
+        numReviews: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
     },
     {
         timestamps: true

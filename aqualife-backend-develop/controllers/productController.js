@@ -140,7 +140,7 @@ const getProduct = async (req, res) => {
   }
 
   // Confirm product exists to delete
-  const product = await Product.findById(id).exec();
+  const product = await Product.findById(id).populate('seller', 'firstName lastName').exec();
 
   if (!product) {
     return res.status(400).json({ message: "product not found", result: false });
@@ -153,7 +153,7 @@ const getProduct = async (req, res) => {
 // @route GET /product
 // @access Public
 const getAllProducts = async (req, res) => {
-  const products = await Product.find().sort({ createdAt: -1 }).exec();
+  const products = await Product.find().populate('seller', 'firstName lastName').sort({ createdAt: -1 }).exec();
   res.json({ products, result: true });
 };
 
@@ -176,9 +176,61 @@ const getSearchedProduct = async (req, res) => {
   // Escape special regex characters in the search term to allow searching symbols safely
   const safeSearch = productName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   // Match the search term only at the start of a word (word boundary)
-  const products = await Product.find({ name: { $regex: '\\b' + safeSearch, $options: 'i' } });
+  const products = await Product.find({ name: { $regex: '\\b' + safeSearch, $options: 'i' } }).populate('seller', 'firstName lastName');
 
   res.json({ products, result: true });
+};
+
+// @desc Create new review
+// @route POST /products/:id/reviews
+// @access Private
+const createProductReview = async (req, res) => {
+  const { rating, comment } = req.body;
+  const productId = req.params.id;
+
+  if (!rating || !comment) {
+    return res.status(400).json({ message: "Rating and comment required", result: false });
+  }
+
+  const product = await Product.findById(productId);
+
+  if (!product) {
+    return res.status(404).json({ message: "Product not found", result: false });
+  }
+
+  // Ensure user hasn't already reviewed this product
+  const alreadyReviewed = product.reviews.find(
+    (r) => r.user.toString() === req.user.toString()
+  );
+
+  if (alreadyReviewed) {
+    return res.status(400).json({ message: "Product already reviewed", result: false });
+  }
+
+  // Look up the user to capture their name (assuming req.userId is decoded from JWT or user is attached)
+  // Assuming the verifyJWT attaches the req.user ID directly.
+  const User = require("../models/User");
+  const user = await User.findById(req.user).lean().exec();
+  const userName = user ? `${user.firstName} ${user.lastName}` : "Customer";
+
+  const review = {
+    name: userName,
+    rating: Number(rating),
+    comment,
+    user: req.user,
+  };
+
+  product.reviews.push(review);
+
+  product.numReviews = product.reviews.length;
+
+  // Calculate Average Rating
+  product.rating =
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    product.reviews.length;
+
+  await product.save();
+  res.status(201).json({ message: "Review added", result: true });
 };
 
 module.exports = {
@@ -188,5 +240,6 @@ module.exports = {
   deleteProduct,
   getProduct,
   getProductsSellerWise,
-  getSearchedProduct
+  getSearchedProduct,
+  createProductReview
 };

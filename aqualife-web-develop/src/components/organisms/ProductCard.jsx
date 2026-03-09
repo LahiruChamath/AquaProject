@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { ShoppingCartIcon, StarIcon } from "@heroicons/react/24/solid";
+import { StarIcon as StarOutlineIcon } from "@heroicons/react/24/outline";
+import { Rating } from "@material-tailwind/react";
 import { CartContext } from "../../context/CartContext";
 
 const ProductCard = ({ product }) => {
-  const { _id, name, price, currency, imgURL, seller } = product || {};
+  const { _id, name, price, currency, imgURL, seller, rating = 0, numReviews = 0 } = product || {};
 
   const { addToCart } = useContext(CartContext);
 
@@ -34,10 +36,22 @@ const ProductCard = ({ product }) => {
               ? `${seller.firstName} ${seller.lastName}`
               : "Unknown Seller"}
           </div>
-          <div className="flex justify-end text-base w-full text-blue-500 font-semibold">
-            {price ? `${price} ${currency || "Rs"}` : "—"}
+          <div className="flex justify-between items-end mt-2">
+            <div className="flex flex-col gap-1">
+              <Rating 
+                value={Math.round(rating)} 
+                readonly 
+                size="sm"
+              />
+              <span className="text-xs text-gray-400 font-medium">
+                {numReviews} {numReviews === 1 ? 'review' : 'reviews'}
+              </span>
+            </div>
+            <div className="text-xl text-blue-500 font-bold whitespace-nowrap">
+              {currency || "LKR"} {Number(price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
           </div>
-          <div className="flex gap-2 mt-5">
+          <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
             <Link to={`/products/${_id}`} className="flex-1">
               <button className="w-full rounded-lg bg-blue-500 py-2 text-white hover:bg-blue-600 transition h-full font-medium">
                 View

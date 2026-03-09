@@ -13,6 +13,8 @@ router.route("/:id").get(productController.getProduct);
 
 router.route("/:id").delete(verifyJWT, productController.deleteProduct);
 
+router.route("/:id/reviews").post(verifyJWT, productController.createProductReview);
+
 router
   .route("/search-product")
   .post(productController.getSearchedProduct);

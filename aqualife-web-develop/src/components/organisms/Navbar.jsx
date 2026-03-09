@@ -108,10 +108,10 @@ const Navbar = () => {
         <div className="flex gap-x-5">
           <button
             onClick={() => setOpenRight(true)}
-            className="bg-white p-4 border-2 border-blue-500 flex space-x-3 rounded-lg transition ease-in-out delay-75 animation-pulse"
+            className="group flex items-center gap-3 bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-blue-500/40 border border-blue-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
           >
-            <ShoppingCartIcon className="h-6 w-6 text-blue-500 font-medium" />
-            <p className="text-blue-500 font-medium">View Shopping Cart</p>
+            <ShoppingCartIcon className="h-6 w-6 text-white group-hover:scale-110 transition-transform duration-300" />
+            <p className="font-bold tracking-wide">View Cart</p>
           </button>
 
           {isLoggedIn ? (
@@ -151,19 +151,19 @@ const Navbar = () => {
         {/* Real-time Search Form */}
         <div className="w-full relative" ref={searchRef}>
           <form onSubmit={handleSearchSubmit} className="flex space-x-5 w-full">
-            <div className="w-full relative">
+            <div className="w-full relative group">
               <input
-                className="w-full p-4 rounded-xl outline-none shadow-sm pr-12 border-2 border-transparent focus:border-blue-300 transition"
+                className="w-full py-4 pl-6 pr-14 rounded-2xl outline-none shadow-[0_8px_30px_rgb(0,0,0,0.06)] text-gray-700 bg-white border border-gray-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all duration-300"
                 placeholder="Search for products, fishes, accessories..."
                 type="text"
                 value={searchQuery}
                 onFocus={() => { if(searchResults.length > 0) setShowDropdown(true); }}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <MagnifyingGlassIcon className="h-6 w-6 text-gray-400 absolute right-4 top-1/2 transform -translate-y-1/2" />
+              <MagnifyingGlassIcon className="h-6 w-6 text-gray-400 absolute right-5 top-1/2 transform -translate-y-1/2 group-focus-within:text-blue-500 transition-colors duration-300" />
             </div>
             <button
-              className="px-14 py-3 rounded-xl transition ease-in-out delay-75 bg-white text-blue-500 border-2 border-blue-500 hover:bg-blue-600 hover:text-white hover:border-blue-600 font-bold shadow-sm"
+              className="px-10 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 transform hover:-translate-y-0.5 border border-blue-400/20"
               type="submit"
             >
               Search
