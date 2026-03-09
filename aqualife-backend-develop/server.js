@@ -33,6 +33,7 @@ app.use('/users', require('./routes/userRoutes'));
 app.use('/product', require('./routes/productRoutes'));
 app.use('/seller', require('./routes/sellerRoutes'));
 app.use('/admin', require('./routes/adminRoutes'));
+app.use('/orders', require('./routes/orderRoutes'));
 
 app.all('*', (req, res) => {
     res.status(404)

@@ -153,7 +153,7 @@ const getProduct = async (req, res) => {
 // @route GET /product
 // @access Public
 const getAllProducts = async (req, res) => {
-  const products = await Product.find().populate('seller', 'firstName lastName').sort({ createdAt: -1 }).exec();
+  const products = await Product.find({ status: 4 }).populate('seller', 'firstName lastName').sort({ createdAt: -1 }).exec();
   res.json({ products, result: true });
 };
 
@@ -175,8 +175,11 @@ const getSearchedProduct = async (req, res) => {
 
   // Escape special regex characters in the search term to allow searching symbols safely
   const safeSearch = productName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  // Match the search term only at the start of a word (word boundary)
-  const products = await Product.find({ name: { $regex: '\\b' + safeSearch, $options: 'i' } }).populate('seller', 'firstName lastName');
+  // Match the search term only at the start of a word (word boundary) and only approved products
+  const products = await Product.find({ 
+    name: { $regex: '\\b' + safeSearch, $options: 'i' },
+    status: 4
+  }).populate('seller', 'firstName lastName');
 
   res.json({ products, result: true });
 };

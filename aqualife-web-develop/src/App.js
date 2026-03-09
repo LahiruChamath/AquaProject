@@ -1,21 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
-import {
-  ADMIN_PRODUCTS_PATH,
-  ADMIN_SELLERS_PATH,
-  ADMIN_SELLERS_REVIEWS_PATH,
-  LOGIN_PATH,
-  PRODUCTS_PATH,
-  REGISTER_PATH,
-  SELLER_PRODUCTS_ADD_PATH,
-  SELLER_PRODUCTS_EDIT_PATH,
-  SELLER_PRODUCTS_PATH,
-  SPECIFIC_PRODUCTS_PATH,
-  CHECKOUT_PATH,
-} from "./components/constants";
 import AdminProductsTable from "./components/organisms/Admin/AdminProductsTable";
 import AdminSellerReviews from "./components/organisms/Admin/AdminSellerReviews";
 import AdminSellersTable from "./components/organisms/Admin/AdminSellersTable";
+import AdminOrdersTable from "./components/organisms/Admin/AdminOrdersTable";
 import SellerAddProduct from "./components/organisms/Seller/SellerAddProduct";
 import SellerEditProduct from "./components/organisms/Seller/SellerEditProduct";
 import SellerProductsTable from "./components/organisms/Seller/SellerProductsTable";
@@ -26,6 +14,20 @@ import Register from "./components/pages/Register";
 import SellerDashboard from "./components/pages/SellerDashboard";
 import SingleProduct from "./components/pages/SingleProduct";
 import Checkout from "./components/pages/Checkout";
+import { 
+  ADMIN_PRODUCTS_PATH, 
+  ADMIN_SELLERS_PATH, 
+  ADMIN_ORDERS_PATH,
+  ADMIN_SELLERS_REVIEWS_PATH,
+  LOGIN_PATH,
+  PRODUCTS_PATH,
+  REGISTER_PATH,
+  SELLER_PRODUCTS_ADD_PATH,
+  SELLER_PRODUCTS_EDIT_PATH,
+  SELLER_PRODUCTS_PATH,
+  SPECIFIC_PRODUCTS_PATH,
+  CHECKOUT_PATH
+} from "./components/constants";
 import "./styles/login.css";
 import "./styles/products.css";
 
@@ -60,6 +62,10 @@ function App() {
             <Route
               path={ADMIN_PRODUCTS_PATH}
               element={<AdminProductsTable />}
+            />
+            <Route
+              path={ADMIN_ORDERS_PATH}
+              element={<AdminOrdersTable />}
             />
           </Route>
           <Route

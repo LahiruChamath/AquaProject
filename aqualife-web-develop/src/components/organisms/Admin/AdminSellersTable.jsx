@@ -303,7 +303,7 @@ const AdminSellersTable = () => {
 
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
-          Page 1 of 10
+          Page 1 of {Math.ceil(sellers.length / 10) || 1}
         </Typography>
         <div className="flex gap-2">
           <Button variant="outlined" size="sm">

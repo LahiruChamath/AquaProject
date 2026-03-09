@@ -33,6 +33,7 @@ const AdminProductsTable = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [activeTab, setActiveTab] = useState("all");
 
   const handleApprovalModalOpen = () =>
     setApprovalModalOpen(!approvalModalOpen);
@@ -165,10 +166,10 @@ const AdminProductsTable = () => {
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <Tabs value="all" className="w-full md:w-max">
+          <Tabs value={activeTab} className="w-full md:w-max">
             <TabsHeader>
               {TABS.map(({ label, value }) => (
-                <Tab key={value} value={value}>
+                <Tab key={value} value={value} onClick={() => setActiveTab(value)}>
                   &nbsp;&nbsp;{label}&nbsp;&nbsp;
                 </Tab>
               ))}
@@ -211,7 +212,15 @@ const AdminProductsTable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map(
+                  {products
+                    .filter((product) => {
+                      if (activeTab === "all") return true;
+                      if (activeTab === "approved") return product.status === 4;
+                      if (activeTab === "pending") return product.status === 0;
+                      if (activeTab === "rejected") return product.status !== 4 && product.status !== 0;
+                      return true;
+                    })
+                    .map(
                     (
                       {
                         imgURL,
@@ -349,7 +358,7 @@ const AdminProductsTable = () => {
                 color="blue-gray"
                 className="font-normal"
               >
-                Page 1 of 10
+                Page 1 of {Math.ceil(products.length / 10) || 1}
               </Typography>
               <div className="flex gap-2">
                 <Button variant="outlined" size="sm">

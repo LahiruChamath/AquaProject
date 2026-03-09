@@ -3,6 +3,7 @@ export const SELLER_PRODUCTS_EDIT_PATH = "/seller/products/edit/";
 export const SELLER_PRODUCTS_ADD_PATH = "/seller/products/add";
 export const ADMIN_SELLERS_PATH = "/admin/sellers";
 export const ADMIN_PRODUCTS_PATH = "/admin/products";
+export const ADMIN_ORDERS_PATH = "/admin/orders";
 export const ADMIN_SELLERS_REVIEWS_PATH = "/admin/sellers/reviews/";
 export const LOGIN_PATH = "/login";
 export const REGISTER_PATH = "/register";

@@ -10,10 +10,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   ADMIN_PRODUCTS_PATH,
   ADMIN_SELLERS_PATH,
+  ADMIN_ORDERS_PATH,
   LOGIN_PATH,
 } from "../../constants";
 
-const SellerSideBar = () => {
+const AdminSideBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const logOut = () => {
@@ -62,18 +63,19 @@ const SellerSideBar = () => {
           />
           Products
         </Link>
-        <div
+        <Link
+          to={ADMIN_ORDERS_PATH}
           className={`cursor-pointer flex items-center group rounded-lg hover:bg-white text-blue-500 hover:text-blue-500 focus:text-blue-500 text-white p-3 transition ease-in-out delay-75 duration-100 ${
-             location.pathname === "/admin/orders" ? "bg-white text-blue-500" : ""
+             location.pathname === ADMIN_ORDERS_PATH ? "bg-white text-blue-500" : ""
           }`}
         >
           <ClipboardDocumentListIcon
             className={`h-5 w-5 group-hover:text-blue-500 ${
-               location.pathname === "/admin/orders" ? "text-blue-500" : "text-white"
+               location.pathname === ADMIN_ORDERS_PATH ? "text-blue-500" : "text-white"
             } mr-4`}
           />
           Orders
-        </div>
+        </Link>
         <div
           onClick={logOut}
           className="cursor-pointer flex items-center rounded-lg bg-none hover:bg-white p-3 text-white group hover:text-blue-500 focus:text-blue-500 transition ease-in-out delay-75 duration-100"
@@ -86,4 +88,4 @@ const SellerSideBar = () => {
   );
 };
 
-export default SellerSideBar;
+export default AdminSideBar;
