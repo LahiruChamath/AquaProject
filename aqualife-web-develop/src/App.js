@@ -30,12 +30,14 @@ import {
 } from "./components/constants";
 import "./styles/login.css";
 import "./styles/products.css";
+import CartNotification from "./components/organisms/CartNotification";
 
 function App() {
   const user = localStorage.getItem("token");
   return (
     <>
       <BrowserRouter>
+        <CartNotification />
         <Routes>
           <Route path={LOGIN_PATH} element={<Login />} />
           <Route path={REGISTER_PATH} element={<Register />} />

@@ -8,6 +8,8 @@ export const CartProvider = ({ children }) => {
     return localData ? JSON.parse(localData) : [];
   });
 
+  const [notification, setNotification] = useState({ show: false, itemName: "" });
+
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
@@ -24,6 +26,12 @@ export const CartProvider = ({ children }) => {
       }
       return [...prevItems, { ...product, cartQuantity: quantity }];
     });
+
+    // Trigger notification
+    setNotification({ show: true, itemName: product.name });
+    setTimeout(() => {
+      setNotification({ show: false, itemName: "" });
+    }, 3000);
   };
 
   const removeFromCart = (productId) => {
@@ -66,7 +74,8 @@ export const CartProvider = ({ children }) => {
         updateQuantity,
         clearCart,
         getCartTotal,
-        getCartCount
+        getCartCount,
+        notification
       }}
     >
       {children}
