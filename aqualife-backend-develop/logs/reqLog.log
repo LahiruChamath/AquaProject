@@ -10794,3 +10794,13 @@
 20260309	18:02:08	4f74b7f0-6224-4ad9-9462-67d9961dcf06	POST	/product/search-product	200	2ms	http://localhost:3000
 20260309	18:02:10	c2fb6a31-af38-4285-b1b4-f87625544054	POST	/product/search-product	200	7ms	http://localhost:3000
 20260309	18:02:12	2f30be1c-3333-42be-90fd-4ddaaa5e6da9	POST	/product/search-product	200	3ms	http://localhost:3000
+20260309	18:09:19	2ce2bf0e-5f8b-47ac-b5f9-32b0fb46d8fc	OPTIONS	/product/search-product	200	3ms	http://localhost:3000
+20260309	18:09:19	04b5520f-6dc2-4bcb-a03a-65840142a476	POST	/product/search-product	200	17ms	http://localhost:3000
+20260309	18:09:20	7597b3dd-dd91-4fc2-931c-3cb500af43bc	POST	/product/search-product	200	9ms	http://localhost:3000
+20260309	18:09:22	e67fe256-f8b4-4394-8087-db585207829c	POST	/product/search-product	200	5ms	http://localhost:3000
+20260309	18:09:24	10e1a2e9-77f7-4c39-9b88-175615281465	OPTIONS	/product/search-product	200	1ms	http://localhost:3000
+20260309	18:09:24	67d3e2bc-192d-4ba7-b04f-f3f871cc5bed	POST	/product/search-product	200	5ms	http://localhost:3000
+20260309	18:09:26	0f815589-e0c2-4f5e-8a1b-6d9e0fe99c24	POST	/product/search-product	200	4ms	http://localhost:3000
+20260309	18:09:27	70df4a22-0f56-45c2-881b-5eb3013cea98	POST	/product/search-product	200	4ms	http://localhost:3000
+20260309	18:11:16	e4c502b2-8e25-44f9-9ecd-2eae18a664fb	OPTIONS	/users/69aea60a2e52569c693d9afc	200	1ms	http://localhost:3000
+20260309	18:11:16	ae1c3280-59f9-4a50-b921-57241aa20f7b	GET	/users/69aea60a2e52569c693d9afc	304	4ms	http://localhost:3000

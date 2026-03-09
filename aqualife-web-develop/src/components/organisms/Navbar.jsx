@@ -116,11 +116,11 @@ const Navbar = () => {
 
           {isLoggedIn ? (
             <div className="relative group z-50">
-              <div className="flex items-center gap-3 bg-white bg-opacity-10 py-2 px-4 rounded-xl border border-white border-opacity-20 text-white min-w-max cursor-pointer hover:bg-opacity-20 transition">
-                <UserCircleIcon className="h-10 w-10 text-blue-200" />
+              <div className="flex items-center gap-3 bg-white py-2 px-5 rounded-full shadow-md text-blue-900 border border-blue-100 min-w-max cursor-pointer hover:bg-gray-50 transition">
+                <UserCircleIcon className="h-10 w-10 text-blue-500" />
                 <div className="flex flex-col">
-                  <span className="text-xs text-blue-100 uppercase tracking-wider font-semibold">Welcome back,</span>
-                  <span className="text-sm font-bold truncate max-w-[150px]">
+                  <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Welcome back</span>
+                  <span className="text-sm font-extrabold truncate max-w-[150px]">
                     {userInfo ? `${userInfo.firstName} ${userInfo.lastName}` : "User"}
                   </span>
                 </div>

@@ -175,7 +175,8 @@ const getSearchedProduct = async (req, res) => {
 
   // Escape special regex characters in the search term to allow searching symbols safely
   const safeSearch = productName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const products = await Product.find({ name: { $regex: safeSearch, $options: 'i' } });
+  // Match the search term only at the start of a word (word boundary)
+  const products = await Product.find({ name: { $regex: '\\b' + safeSearch, $options: 'i' } });
 
   res.json({ products, result: true });
 };
